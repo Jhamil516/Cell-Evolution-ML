@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     private float timeRemaining;
     private int currentRound = 1;
     private int score = 0;
+    [Header("Sonidos")]
+    public AudioClip newGenerationSFX;
+    public AudioClip gameOverSFX;
 
     void Start()
     {
@@ -46,6 +49,14 @@ public class GameManager : MonoBehaviour
         uiManager.UpdateTimer(timeRemaining);
 
         cellSpawner.SpawnCells();
+
+        if (currentRound > 1)
+        {
+            AudioManager.instance.PlaySFX(
+                newGenerationSFX,
+                0.7f
+            );
+        }
 
         Debug.Log("Inicia ronda " + currentRound);
     }
@@ -109,6 +120,11 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(
             "GAME OVER | Las células lograron sobrevivir completamente."
+        );
+
+        AudioManager.instance.PlaySFX(
+            gameOverSFX,
+            1f
         );
 
         uiManager.ShowGameOver(

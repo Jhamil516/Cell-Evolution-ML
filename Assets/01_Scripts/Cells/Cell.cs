@@ -9,16 +9,16 @@ public class Cell : MonoBehaviour
     public Color cellColor = Color.white;
     public float cellSize = 1f;
     public bool isAlive = true;
+    [Header("Sonidos")]
+    public AudioClip deathSFX;
 
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        adaptationManager =
-            FindFirstObjectByType<AdaptationManager>();
+        adaptationManager = FindFirstObjectByType<AdaptationManager>();
 
-        gameManager =
-            FindFirstObjectByType<GameManager>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     public void SetCharacteristics(Color color, float size)
@@ -34,7 +34,6 @@ public class Cell : MonoBehaviour
     {
         Die();
     }
-
     void Die()
     {
         isAlive = false;
@@ -46,6 +45,12 @@ public class Cell : MonoBehaviour
         );
 
         gameManager.AddScore();
+
+        AudioManager.instance.PlaySFX(
+            deathSFX,
+            1f,
+            Random.Range(0.9f, 1.1f)
+        );
 
         Destroy(gameObject);
     }

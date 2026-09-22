@@ -49,6 +49,7 @@ MonoBehaviour:
   cellColor: {r: 1, g: 1, b: 1, a: 1}
   cellSize: 1
   isAlive: 1
+  deathSFX: {fileID: 8300000, guid: dd5f95cabbff253438ed4f1fd4ff5434, type: 3}
 --- !u!212 &4841496521437750115
 SpriteRenderer:
   serializedVersion: 3
