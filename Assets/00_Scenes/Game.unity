@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 45998026}
+  - component: {fileID: 45998027}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -150,6 +151,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &45998027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45998025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e543df0b811548a42aba91e9556881b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  roundDuration: 10
+  adaptationManager: {fileID: 999852147}
+  uiManager: {fileID: 2042174203}
+  cellSpawner: {fileID: 1567288015}
+  cellContainer: {fileID: 1092409653}
 --- !u!1 &384395544
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +632,11 @@ MonoBehaviour:
         m_SelectedSource:
           rid: -2
         m_Provider2DCache:
-          rid: -2
+          rid: 5165216953718276169
+    - rid: 5165216953718276169
+      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Cache: []
 --- !u!4 &619394802
 Transform:
   m_ObjectHideFlags: 0
@@ -767,6 +789,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657893794}
   m_CullTransparentMesh: 1
+--- !u!1 &999852146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999852148}
+  - component: {fileID: 999852147}
+  m_Layer: 0
+  m_Name: AdaptationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &999852147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999852146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 142b16ff33b415445b55eb6897b5ec75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AdaptationManager
+  experiences: []
+  colorMutation: 0.15
+  sizeMutation: 0.15
+--- !u!4 &999852148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999852146}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.96703, y: 2.04868, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1092409652
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,7 +1013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1567288014}
-  - component: {fileID: 1567288013}
+  - component: {fileID: 1567288015}
   m_Layer: 0
   m_Name: CellSpawner
   m_TagString: Untagged
@@ -952,27 +1021,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1567288013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567288012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d2828db7e3b7449ae1c80413d09f12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CellSpawner
-  cellPrefab: {fileID: 7069770047710099586, guid: 1becee88ee4514f438794e8ac79f5e4b, type: 3}
-  cellContainer: {fileID: 1092409653}
-  numberOfCells: 10
-  minX: -7
-  maxX: 7
-  minY: -4
-  maxY: 3.5
-  minSize: 0.7
-  maxSize: 1.3
 --- !u!4 &1567288014
 Transform:
   m_ObjectHideFlags: 0
@@ -988,6 +1036,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1567288015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567288012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d2828db7e3b7449ae1c80413d09f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CellSpawner
+  adaptationManager: {fileID: 999852147}
+  cellPrefab: {fileID: 7069770047710099586, guid: 1becee88ee4514f438794e8ac79f5e4b, type: 3}
+  cellContainer: {fileID: 1092409653}
+  numberOfCells: 10
+  minX: -7
+  maxX: 7
+  minY: -4
+  maxY: 3.5
+  minSize: 0.7
+  maxSize: 1.3
 --- !u!1 &1885984994
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,6 +1146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2042174202}
+  - component: {fileID: 2042174203}
   - component: {fileID: 2042174201}
   - component: {fileID: 2042174200}
   - component: {fileID: 2042174199}
@@ -1170,6 +1241,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2042174203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042174198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef6991cc2fa4f4141b8c459ff0510ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  scoreText: {fileID: 657893796}
+  roundText: {fileID: 421977262}
+  timerText: {fileID: 1467387576}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1181,3 +1267,4 @@ SceneRoots:
   - {fileID: 2042174202}
   - {fileID: 1885984997}
   - {fileID: 1567288014}
+  - {fileID: 999852148}

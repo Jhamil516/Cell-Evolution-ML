@@ -3,6 +3,7 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
+    private AdaptationManager adaptationManager;
 
     public Color cellColor = Color.white;
     public float cellSize = 1f;
@@ -11,6 +12,9 @@ public class Cell : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        adaptationManager =
+            FindFirstObjectByType<AdaptationManager>();
     }
 
     public void SetCharacteristics(Color color, float size)
@@ -31,11 +35,10 @@ public class Cell : MonoBehaviour
     {
         isAlive = false;
 
-        Debug.Log(
-            "Celula eliminada | Color: " +
-            cellColor +
-            " | Tamaño: " +
-            cellSize
+        adaptationManager.RegisterExperience(
+            cellColor,
+            cellSize,
+            false
         );
 
         Destroy(gameObject);
