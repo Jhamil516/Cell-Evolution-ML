@@ -52,7 +52,8 @@ public class GameManager : MonoBehaviour
     void EndRound()
     {
         int survivors = cellContainer.childCount;
-        int eliminated = cellSpawner.numberOfCells - survivors;
+        int eliminated =
+            cellSpawner.numberOfCells - survivors;
 
         Debug.Log(
             "Ronda " + currentRound +
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
             " | Supervivientes: " + survivors
         );
 
+        // Registramos las que siguen vivas.
         foreach (Transform child in cellContainer)
         {
             Cell cell = child.GetComponent<Cell>();
@@ -71,10 +73,15 @@ public class GameManager : MonoBehaviour
             );
         }
 
+        // Terminamos el aprendizaje de esta generación.
+        adaptationManager.FinishGeneration();
+
+        // Eliminamos las células que quedaron.
         ClearCells();
 
         currentRound++;
 
+        // Generamos la siguiente generación.
         StartRound();
     }
 

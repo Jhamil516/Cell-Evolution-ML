@@ -3,18 +3,27 @@ using UnityEngine;
 
 public class AdaptationManager : MonoBehaviour
 {
-    public List<CellExperience> experiences = new List<CellExperience>();
+    public List<CellExperience> currentGeneration =
+        new List<CellExperience>();
 
-    // Qué tanto puede variar una característica heredada.
+    public List<CellExperience> previousSurvivors =
+        new List<CellExperience>();
+
     public float colorMutation = 0.15f;
     public float sizeMutation = 0.15f;
 
-    public void RegisterExperience(Color color, float size, bool survived)
+    [Range(0f, 1f)]
+    public float explorationRate = 0.15f;
+
+    public void RegisterExperience(
+        Color color,
+        float size,
+        bool survived)
     {
         CellExperience experience =
             new CellExperience(color, size, survived);
 
-        experiences.Add(experience);
+        currentGeneration.Add(experience);
 
         Debug.Log(
             "Experiencia | Tamaño: " +
@@ -24,16 +33,32 @@ public class AdaptationManager : MonoBehaviour
         );
     }
 
+    public void FinishGeneration()
+    {
+        previousSurvivors.Clear();
+
+        foreach (CellExperience experience in currentGeneration)
+        {
+            if (experience.survived)
+            {
+                previousSurvivors.Add(experience);
+            }
+        }
+
+        Debug.Log(
+            "Generación finalizada | Supervivientes usados para aprender: "
+            + previousSurvivors.Count
+        );
+
+        currentGeneration.Clear();
+    }
+
     public CellExperience GetAdaptedCharacteristics(
         float minSize,
         float maxSize)
     {
-        List<CellExperience> survivors =
-            experiences.FindAll(e => e.survived);
-
-        // Si todavía no tenemos supervivientes,
-        // exploramos con características aleatorias.
-        if (survivors.Count == 0)
+        // Si no tenemos padres, la célula será aleatoria.
+        if (previousSurvivors.Count == 0)
         {
             return CreateRandomCharacteristics(
                 minSize,
@@ -41,27 +66,39 @@ public class AdaptationManager : MonoBehaviour
             );
         }
 
-        // Elegimos una experiencia exitosa.
-        CellExperience parent =
-            survivors[Random.Range(0, survivors.Count)];
+        // Algunas células exploran características nuevas.
+        if (Random.value < explorationRate)
+        {
+            return CreateRandomCharacteristics(
+                minSize,
+                maxSize
+            );
+        }
 
-        // Mutación del color heredado.
+        // Seleccionamos un superviviente de la
+        // generación anterior.
+        CellExperience parent =
+            previousSurvivors[
+                Random.Range(0, previousSurvivors.Count)
+            ];
+
         Color newColor = new Color(
             Mathf.Clamp01(
                 parent.color.r +
                 Random.Range(-colorMutation, colorMutation)
             ),
+
             Mathf.Clamp01(
                 parent.color.g +
                 Random.Range(-colorMutation, colorMutation)
             ),
+
             Mathf.Clamp01(
                 parent.color.b +
                 Random.Range(-colorMutation, colorMutation)
             )
         );
 
-        // Mutación del tamaño heredado.
         float newSize = Mathf.Clamp(
             parent.size +
             Random.Range(-sizeMutation, sizeMutation),
