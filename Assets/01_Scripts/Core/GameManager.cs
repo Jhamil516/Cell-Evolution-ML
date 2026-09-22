@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
     void EndRound()
     {
         int survivors = cellContainer.childCount;
+
         int eliminated =
             cellSpawner.numberOfCells - survivors;
 
@@ -61,7 +63,7 @@ public class GameManager : MonoBehaviour
             " | Supervivientes: " + survivors
         );
 
-        // Registramos las que siguen vivas.
+        // Registrar las células supervivientes
         foreach (Transform child in cellContainer)
         {
             Cell cell = child.GetComponent<Cell>();
@@ -73,18 +75,23 @@ public class GameManager : MonoBehaviour
             );
         }
 
-        // Terminamos el aprendizaje de esta generación.
+        // Finalizar el aprendizaje de esta generación
         adaptationManager.FinishGeneration();
 
-        // Eliminamos las células que quedaron.
+        // Si no eliminamos ninguna célula,
+        // las células ganaron.
+        if (eliminated == 0)
+        {
+            GameOver();
+            return;
+        }
+
         ClearCells();
 
         currentRound++;
 
-        // Generamos la siguiente generación.
         StartRound();
     }
-
     void ClearCells()
     {
         foreach (Transform cell in cellContainer)
@@ -97,5 +104,25 @@ public class GameManager : MonoBehaviour
         score++;
 
         uiManager.UpdateScore(score);
+    }
+    void GameOver()
+    {
+        Debug.Log(
+            "GAME OVER | Las células lograron sobrevivir completamente."
+        );
+
+        uiManager.ShowGameOver(
+            score,
+            currentRound
+        );
+
+        enabled = false;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 }
