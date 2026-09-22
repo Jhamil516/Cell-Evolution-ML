@@ -4,6 +4,7 @@ public class Cell : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private AdaptationManager adaptationManager;
+    private GameManager gameManager;
 
     public Color cellColor = Color.white;
     public float cellSize = 1f;
@@ -15,6 +16,9 @@ public class Cell : MonoBehaviour
 
         adaptationManager =
             FindFirstObjectByType<AdaptationManager>();
+
+        gameManager =
+            FindFirstObjectByType<GameManager>();
     }
 
     public void SetCharacteristics(Color color, float size)
@@ -40,6 +44,8 @@ public class Cell : MonoBehaviour
             cellSize,
             false
         );
+
+        gameManager.AddScore();
 
         Destroy(gameObject);
     }

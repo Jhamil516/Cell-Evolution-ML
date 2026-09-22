@@ -92,4 +92,10 @@ public class GameManager : MonoBehaviour
             Destroy(cell.gameObject);
         }
     }
+    public void AddScore()
+    {
+        score++;
+
+        uiManager.UpdateScore(score);
+    }
 }
